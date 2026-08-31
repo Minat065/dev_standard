@@ -1,0 +1,3 @@
+# I-2: 決定台帳と不変条件は人間の承認なしに変わらない
+flow.toml      @Minat065
+INVARIANTS.md  @Minat065

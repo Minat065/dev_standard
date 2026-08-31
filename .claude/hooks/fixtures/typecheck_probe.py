@@ -25,6 +25,7 @@ def find_user(users: dict[int, User], user_id: int) -> User | None:
 # 1) 引数の型違い: int を期待しているのに str を渡す  -> [arg-type]
 double("21")
 
+
 # 2) 戻り値の型違い: int を宣言しているのに str を返す  -> [return-value]
 def triple(n: int) -> int:
     return f"{n * 3}"

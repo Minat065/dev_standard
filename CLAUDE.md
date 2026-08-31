@@ -1,8 +1,10 @@
 # Commands
 - check all: `make check`
 - format: `make fmt` / lint: `make lint` / types: `make typecheck` / test: `make test`
+- decision ledger: `python3 tools/flow.py status|next|render|check`
+- initial setup: `/setup`
 
-# Prohibited
-- 依存の追加は <lockfile> の更新を含めて1コミットに分ける
-- <禁止API> を使わない。代わりに <代替> を使う
-- <非自明な規約を1〜3行>
+# Rules
+- 決定（言語・ツール・本番 CLI）は flow.toml が単一の情報源。値は人間が /setup で答えたものだけを書く。推測で埋めない。
+- Makefile / tools/ci-setup.sh / .claude/settings.json は生成物。編集するなら flow.toml を編集して `python3 tools/flow.py render`。
+- INVARIANTS.md に触れる変更は、実装前に該当条項を人間に確認する。
