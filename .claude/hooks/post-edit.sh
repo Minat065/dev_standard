@@ -11,7 +11,7 @@ python3 tools/flow.py status >/dev/null 2>&1 || exit 0
 make fmt >/dev/null 2>&1
 out=$(make lint typecheck 2>&1)
 if [ $? -ne 0 ]; then
-  echo "lint/typecheck failed after editing $file:" >&2
+  echo "$file の編集後に lint/typecheck が失敗:" >&2
   echo "$out" | tail -40 >&2
   exit 2
 fi

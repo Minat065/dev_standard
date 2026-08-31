@@ -6,10 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: ledger and generated files are consistent (I-1)
+      - name: 台帳に未決定がなく生成物が一致する（I-1）
         run: python3 tools/flow.py check
-      - name: toolchain
+      - name: ツール導入
         run: sh tools/ci-setup.sh
       - run: make check
-      - name: fmt produced no diff
+      - name: fmt が差分を生まなかった
         run: git diff --exit-code

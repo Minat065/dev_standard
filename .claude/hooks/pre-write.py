@@ -46,7 +46,7 @@ except ValueError:
 
 if rel in GENERATED:
     print(
-        f"{rel} is generated from flow.toml. Edit flow.toml, then run: python3 tools/flow.py render",
+        f"{rel} は flow.toml からの生成物。flow.toml を編集して python3 tools/flow.py render を実行する",
         file=sys.stderr,
     )
     sys.exit(2)
@@ -55,8 +55,8 @@ pending = flow.pending()
 if pending and not rel.startswith(ALLOWED_WHILE_PENDING):
     keys = ", ".join(k for k, *_ in pending)
     print(
-        f"Blocked: flow.toml has undecided items ({keys}). Product code cannot be written until the "
-        f"human decides them via /setup. Do not fill flow.toml by guessing.",
+        f"ブロック: flow.toml に未決定の項目がある（{keys}）。人間が /setup で決めるまで製品コードは書けない。"
+        "flow.toml を推測で埋めないこと。",
         file=sys.stderr,
     )
     sys.exit(2)
