@@ -1,0 +1,56 @@
+# flow.toml — 決定台帳（このリポジトリの単一の情報源）
+#
+# 各項目は人間が /setup で回答して決める。エージェントは環境検出や推測でここを埋めない。
+# 値と理由を書く。理由が空の項目は未決定として扱われる。
+# Makefile / tools/ci-setup.sh / .claude/settings.json はここから生成する:
+#   python3 tools/flow.py render
+# 未決定の一覧: python3 tools/flow.py status
+#
+# 決定済みの項目は次の形で追記する（依存順。順序は tools/flow.py の DECISIONS が定義する）:
+#
+# [language]
+# value = "python"
+# reason = "..."
+# decided_by = "..."
+#
+# [formatter]     value = "ruff format ."
+# [linter]        value = "ruff check ."
+# [typechecker]   value = "mypy --strict src/"
+# [test_runner]   value = "pytest -q"
+# [ci_setup]      value = ["pip install ruff mypy pytest"]
+# [prod_cli]      value = []            # 無いなら空リストと明示する
+
+[language]
+value = "python"
+reason = "開発機に Python 3.13 と mypy が既にあり、チームの主言語が Python であるため"
+decided_by = "Minat065"
+
+[formatter]
+value = "uv run ruff format ."
+reason = "依存を uv で一元管理する方針のため、ツールはすべて uv run 経由で呼ぶ。整形は ruff format"
+decided_by = "Minat065"
+
+[linter]
+value = "uv run ruff check ."
+reason = "formatter と同じ ruff に寄せ、設定を pyproject.toml の1箇所にまとめる"
+decided_by = "Minat065"
+
+[typechecker]
+value = "uv run mypy --strict src/"
+reason = "mypy を既に使っている。--strict にして型の抜けを許さない。対象は製品コードの src/ のみ"
+decided_by = "Minat065"
+
+[test_runner]
+value = "uv run pytest -q"
+reason = "Python の標準的なテストランナー。再現テスト（導入順序 5）もここに載せる"
+decided_by = "Minat065"
+
+[ci_setup]
+value = ["python3 -m pip install --break-system-packages uv", "uv sync --frozen"]
+reason = "ubuntu-latest には Python があるので pip で uv を入れる（CI は使い捨てなので system 環境への導入でよい。PEP 668 の制限を明示的に外す）。依存は uv.lock に固定したものをそのまま入れる"
+decided_by = "Minat065"
+
+[prod_cli]
+value = []
+reason = "この標準リポジトリ自体は本番環境に届くコマンドを持たない。適用先プロジェクトでは個別に決める"
+decided_by = "Minat065"
