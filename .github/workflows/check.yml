@@ -1,9 +1,15 @@
+# この workflow は決定に依存しない静的な入口。決定に依存する部分は flow.toml から生成した tools/ci-setup.sh と Makefile が持つ。
+name: check
 on: [pull_request]
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - <セットアップ>
+      - name: ledger and generated files are consistent (I-1)
+        run: python3 tools/flow.py check
+      - name: toolchain
+        run: sh tools/ci-setup.sh
       - run: make check
-      - run: git diff --exit-code   # fmt が差分を生んだら落とす
+      - name: fmt produced no diff
+        run: git diff --exit-code

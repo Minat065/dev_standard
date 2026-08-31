@@ -1,0 +1,21 @@
+# flow.toml — 決定台帳（このリポジトリの単一の情報源）
+#
+# 各項目は人間が /setup で回答して決める。エージェントは環境検出や推測でここを埋めない。
+# 値と理由を書く。理由が空の項目は未決定として扱われる。
+# Makefile / tools/ci-setup.sh / .claude/settings.json はここから生成する:
+#   python3 tools/flow.py render
+# 未決定の一覧: python3 tools/flow.py status
+#
+# 決定済みの項目は次の形で追記する（依存順。順序は tools/flow.py の DECISIONS が定義する）:
+#
+# [language]
+# value = "python"
+# reason = "..."
+# decided_by = "..."
+#
+# [formatter]     value = "ruff format ."
+# [linter]        value = "ruff check ."
+# [typechecker]   value = "mypy --strict src/"
+# [test_runner]   value = "pytest -q"
+# [ci_setup]      value = ["pip install ruff mypy pytest"]
+# [prod_cli]      value = []            # 無いなら空リストと明示する
