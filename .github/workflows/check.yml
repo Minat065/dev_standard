@@ -1,0 +1,9 @@
+on: [pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - <セットアップ>
+      - run: make check
+      - run: git diff --exit-code   # fmt が差分を生んだら落とす
