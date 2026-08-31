@@ -19,3 +19,28 @@
 # [test_runner]   value = "pytest -q"
 # [ci_setup]      value = ["pip install ruff mypy pytest"]
 # [prod_cli]      value = []            # 無いなら空リストと明示する
+
+[language]
+value = "python"
+reason = "広くエージェント作成に使用されている言語だから。バージョンは現行の 3.13.1 を使う。"
+decided_by = "lock.extinguish@gmail.com"
+
+[formatter]
+value = "uv run ruff format ."
+reason = "同じ Astral 社製で相性がいいから。"
+decided_by = "lock.extinguish@gmail.com"
+
+[linter]
+value = "uv run ruff check --fix ."
+reason = "flake8 を併用する旨味が無いことを再確認したため ruff 単体にする。自動修正はエージェントに修正編集をさせるより安く、トークン削減になるので --fix でファイルを書き換えさせる。"
+decided_by = "lock.extinguish@gmail.com"
+
+[typechecker]
+value = "uv run mypy --strict src/"
+reason = "src/ に製品コードがまとまる決定はこの standard の思想と合致するため。mypy は既に環境にあり、hook の型検査 fixtures も mypy 前提で用意されている。"
+decided_by = "lock.extinguish@gmail.com"
+
+[test_runner]
+value = "uv run pytest -q --tb=short"
+reason = "デファクトスタンダードの pytest を使う。エージェントが読む出力を短くしてトークンを減らしたいので -q と --tb=short を付ける。"
+decided_by = "lock.extinguish@gmail.com"
